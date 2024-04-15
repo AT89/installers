@@ -10,6 +10,7 @@
         #locations { margin-top: 20px; }
         .state-header { font-weight: bold; list-style: none; margin-bottom: 5px; }
         #locations h2 { display: block; }
+        #locationList li { margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -46,25 +47,25 @@
         }).addTo(map);
 
         var markers = [
-            {address: "6115 Milwee St Ste D, Houston, TX 77092", state: "Texas", latlng: [29.8351, -95.4332], name: "Miles Works USA"},
-            {address: "One Porsche Dr, Atlanta, GA 30354", state: "Georgia", latlng: [33.6563, -84.4177], name: "Porsche Experience Center"},
-            {address: "Crypto.com Arena, Los Angeles, CA", state: "California", latlng: [34.043, -118.267], name: "Crypto Arena"},
+            {name: "Miles Works USA", address: "6115 Milwee St Ste D, Houston, TX 77092", state: "Texas", latlng: [29.8351, -95.4332], phone: "(123) 456-7890", website: "https://www.milesworksusa.com"},
+            {name: "Porsche Experience Center", address: "One Porsche Dr, Atlanta, GA 30354", state: "Georgia", latlng: [33.6563, -84.4177], phone: "(234) 567-8901", website: "https://www.porschedriving.com/atlanta"},
+            {name: "Crpto Arena", address: "Crypto.com Arena, Los Angeles, CA", state: "California", latlng: [34.043, -118.267], phone: "(345) 678-9012", website: "https://www.cryptoarena.com/"},
             // South part of Texas
-            {address: "South Texas Address", state: "Texas", latlng: [27.000, -99.000], name: "South Texas"},
+            {name: "South Texas", address: "South Texas Address", state: "Texas", latlng: [27.000, -99.000], phone: "(456) 789-0123", website: "https://www.example.com"},
             // West part of Texas
-            {address: "West Texas Address", state: "Texas", latlng: [31.000, -103.000], name: "West Texas"},
+            {name: "West Texas", address: "West Texas Address", state: "Texas", latlng: [31.000, -103.000], phone: "(567) 890-1234", website: "https://www.example.com"},
             // East part of Texas
-            {address: "East Texas Address", state: "Texas", latlng: [31.000, -94.000], name: "East Texas"},
+            {name: "East Texas", address: "East Texas Address", state: "Texas", latlng: [31.000, -94.000], phone: "(678) 901-2345", website: "https://www.example.com"},
             // North part of Texas
-            {address: "North Texas Address", state: "Texas", latlng: [33.000, -97.000], name: "North Texas"},
+            {name: "North Texas", address: "North Texas Address", state: "Texas", latlng: [33.000, -97.000], phone: "(789) 012-3456", website: "https://www.example.com"},
             // North part of Canada
-            {address: "North Canada Address", state: "Canada", latlng: [70.000, -95.000], name: "North Canada"},
+            {name: "North Canada", address: "North Canada Address", state: "Canada", latlng: [70.000, -95.000], phone: "(890) 123-4567", website: "https://www.example.com"},
             // South part of Canada
-            {address: "South Canada Address", state: "Canada", latlng: [45.000, -95.000], name: "South Canada"},
+            {name: "South Canada", address: "South Canada Address", state: "Canada", latlng: [45.000, -95.000], phone: "(901) 234-5678", website: "https://www.example.com"},
             // West part of Canada
-            {address: "West Canada Address", state: "Canada", latlng: [55.000, -120.000], name: "West Canada"},
+            {name: "West Canada", address: "West Canada Address", state: "Canada", latlng: [55.000, -120.000], phone: "(012) 345-6789", website: "https://www.example.com"},
             // East part of Canada
-            {address: "East Canada Address", state: "Canada", latlng: [55.000, -70.000], name: "East Canada"}
+            {name: "East Canada", address: "East Canada Address", state: "Canada", latlng: [55.000, -70.000], phone: "(123) 456-7890", website: "https://www.example.com"}
             // Add more locations as needed
         ];
 
@@ -72,8 +73,10 @@
 
         markers.forEach(function(markerInfo) {
             var marker = L.marker(markerInfo.latlng).bindPopup("<b>" + markerInfo.address + "</b>");
-            marker.name = markerInfo.name; // Add name attribute to marker
+            marker.name = markerInfo.name; // Add info attribute to marker
             marker.state = markerInfo.state; // Add state attribute to marker
+            marker.phone = markerInfo.phone; // Add phone attribute to marker
+            marker.website = markerInfo.website; // Add website attribute to marker
             allMarkers.push(marker);
         });
 
@@ -107,7 +110,11 @@
                 stateMarkers.forEach(function(marker) {
                     map.addLayer(marker);
                     var li = document.createElement("li");
-                    li.textContent = marker.name + " - " + marker.getPopup().getContent().replace(/<\/?b>/g, ''); // Remove <b> tags
+                    li.innerHTML =
+                        "<strong>" + marker.name + "</strong><br>" +
+                        "" + marker.getPopup().getContent().replace(/<\/?b>/g, '') + "<br>" +
+                        "" + marker.phone + "<br>" +
+                        "</strong> <a href='" + marker.website + "'>" + marker.website + "</a>";
                     locationList.appendChild(li);
                 });
             }
