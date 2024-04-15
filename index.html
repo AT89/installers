@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USA Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #mapid { height: 500px; }
+        #locations { margin-top: 20px; }
+        .state-header { font-weight: bold; list-style: none; margin-bottom: 5px; }
+        #locations h2 { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="mapid"></div>
+
+    <div>
+        <label for="states">Choose a state or country:</label>
+        <select id="states" onchange="filterMarkers()">
+            <option value="all">All Locations</option>
+            <option value="Texas">Texas</option>
+            <option value="Georgia">Georgia</option>
+            <option value="California">California</option>
+            <option value="Canada">Canada</option>
+            <!-- Add options for other states/countries as needed -->
+        </select>
+    </div>
+
+    <div id="locations">
+        <ul id="locationList">
+            <!-- List items will be dynamically added based on the selected state -->
+        </ul>
+    </div>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae felis sed turpis vulputate dictum vel non ante. Phasellus maximus massa vel nisi scelerisque, eget malesuada eros fermentum. Sed vel efficitur dui, et ultrices ipsum. Suspendisse potenti. Nunc nec condimentum mauris, ac sagittis risus. Duis rutrum velit in ligula bibendum, eu posuere libero sollicitudin. Sed at nisi ac tortor lacinia ultricies ut et ligula. Vestibulum malesuada felis ut turpis pellentesque, at faucibus nulla mattis. Sed mattis, magna id euismod convallis, urna nisl ullamcorper mi, a pulvinar leo elit nec ex. Nam interdum enim auctor odio tempor, sit amet gravida leo varius. Nulla ultrices vel justo vel blandit. Curabitur accumsan tincidunt est, non suscipit libero tincidunt in. Vivamus dictum aliquet nunc a luctus. Nullam at leo eget turpis vestibulum auctor vel vel dui. Aliquam erat volutpat. </p>
+
+    <script src="leaflet/leaflet.js"></script>
+    <script>
+        var map = L.map('mapid').setView([50.0000, -95.0000], 3); // Centered on North America, zoom level 3
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var markers = [
+            {name: "Miles Works USA", address: "6115 Milwee St Ste D, Houston, TX 77092", state: "Texas", latlng: [29.8351, -95.4332], name: " Houston"},
+            {name: "Porsche Experience Center", address: "One Porsche Dr, Atlanta, GA 30354", state: "Georgia", latlng: [33.6563, -84.4177], name: " Atlanta"},
+            {name: "Los Angeles", address: "Crypto.com Arena, Los Angeles, CA", state: "California", latlng: [34.043, -118.267], name: " Los Angeles"},
+            // South part of Texas
+            {name: "South Texas", address: "South Texas Address", state: "Texas", latlng: [27.000, -99.000], name: " South Texas"},
+            // West part of Texas
+            {name: "West Texas", address: "West Texas Address", state: "Texas", latlng: [31.000, -103.000], name: " West Texas"},
+            // East part of Texas
+            {name: "East Texas", address: "East Texas Address", state: "Texas", latlng: [31.000, -94.000], name: " East Texas"},
+            // North part of Texas
+            {name: "North Texas", address: "North Texas Address", state: "Texas", latlng: [33.000, -97.000], name: " North Texas"},
+            // North part of Canada
+            {name: "North Canada", address: "North Canada Address", state: "Canada", latlng: [70.000, -95.000], name: " North Canada"},
+            // South part of Canada
+            {name: "South Canada", address: "South Canada Address", state: "Canada", latlng: [45.000, -95.000], name: " South Canada"},
+            // West part of Canada
+            {name: "West Canada", address: "West Canada Address", state: "Canada", latlng: [55.000, -120.000], name: " West Canada"},
+            // East part of Canada
+            {name: "East Canada", address: "East Canada Address", state: "Canada", latlng: [55.000, -70.000], name: " East Canada"}
+            // Add more locations as needed
+        ];
+
+        var allMarkers = [];
+
+        markers.forEach(function(markerInfo) {
+            var marker = L.marker(markerInfo.latlng).bindPopup("<b>" + markerInfo.address + "</b>");
+            marker.name = markerInfo.name; // Add name attribute to marker
+            marker.state = markerInfo.state; // Add state attribute to marker
+            allMarkers.push(marker);
+        });
+
+        function filterMarkers() {
+            var selectedState = document.getElementById("states").value;
+            var locationList = document.getElementById("locationList");
+            locationList.innerHTML = ""; // Clear previous list items
+
+            if (selectedState === "all") {
+                map.setView([50.0000, -95.0000], 3); // Zoom out to view entire North America
+                var allLocationsHeader = document.createElement("li");
+                allLocationsHeader.textContent = "All Locations";
+                allLocationsHeader.classList.add("state-header");
+                locationList.appendChild(allLocationsHeader);
+            } else {
+                var stateHeader = document.createElement("li");
+                stateHeader.textContent = selectedState;
+                stateHeader.classList.add("state-header");
+                locationList.appendChild(stateHeader);
+            }
+
+            var stateMarkers = allMarkers.filter(function(marker) {
+                return marker.state === selectedState || selectedState === "all";
+            });
+
+            if (stateMarkers.length > 0) {
+                var bounds = L.latLngBounds(stateMarkers.map(function(marker) {
+                    return marker.getLatLng();
+                }));
+                map.fitBounds(bounds);
+                stateMarkers.forEach(function(marker) {
+                    map.addLayer(marker);
+                    var li = document.createElement("li");
+                    li.textContent = marker.name + " - " + marker.getPopup().getContent().replace(/<\/?b>/g, ''); // Remove <b> tags
+                    locationList.appendChild(li);
+                });
+            }
+
+            document.getElementById("locations").style.display = "block";
+        }
+
+        filterMarkers();
+    </script>
+</body>
+</html>
