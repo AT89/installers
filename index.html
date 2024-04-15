@@ -74,7 +74,8 @@
         var allMarkers = [];
 
         markers.forEach(function(markerInfo) {
-            var marker = L.marker(markerInfo.latlng).bindPopup("<b>" + markerInfo.address + "</b>");
+            var marker = L.marker(markerInfo.latlng).bindPopup
+            ("<b>" + markerInfo.name + "</b>");
             marker.name = markerInfo.name; // Add info attribute to marker
             marker.state = markerInfo.state; // Add state attribute to marker
             marker.phone = markerInfo.phone; // Add phone attribute to marker
