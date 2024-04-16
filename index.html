@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>USA Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <!-- <link rel="stylesheet" href="leaflet/leaflet.css" /> local file -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> -->
+    <link rel="stylesheet" href="leaflet/leaflet.css" />
     <style>
         #mapid { height: 500px; }
         #locations { margin-top: 20px; }
@@ -39,8 +39,8 @@
         </ul>
     </div>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- <script src="leaflet/leaflet.js"></script> local file -->
+    <!-- <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> -->
+    <script src="leaflet/leaflet.js"></script>
     <script>
         var map = L.map('mapid').setView([50.0000, -95.0000], 3); // Centered on North America, zoom level 3
 
@@ -87,6 +87,7 @@
             var marker = L.marker(markerInfo.latlng, { icon: markerIcon }).bindPopup
             ("<b>" + markerInfo.name + "</b>");
             marker.name = markerInfo.name; // Add info attribute to marker
+            marker.address = markerInfo.address // Add address attribute to marker
             marker.state = markerInfo.state; // Add state attribute to marker
             marker.phone = markerInfo.phone; // Add phone attribute to marker
             marker.website = markerInfo.website; // Add website attribute to marker
@@ -135,8 +136,8 @@
                         return "<img src='" + image + "' class='location-image' onclick='openImageInNewTab(\"" + image + "\")' />";
                     }).join("");
                     li.innerHTML =
-                        "<strong>" + marker.name + "</strong><br>" +
-                        "" + marker.getPopup().getContent().replace(/<\/?b>/g, '') + "<br>" +
+                        "<strong>" + marker.name + "</strong>" +
+                        "<br>" + marker.address + "<br>" +
                         "" + marker.phone + "<br>" +
                         "<em>" + marker.tier + "</em><br>" +
                         "<a href='" + marker.instagram + "'>Instagram</a><br>" +
