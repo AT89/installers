@@ -11,10 +11,14 @@
         #locations { margin-top: 20px; }
         .state-header { font-weight: bold; list-style: none; margin-bottom: 5px; }
         #locations h2 { display: block; }
-        #locationList li { margin-bottom: 5px; }
+        #locationList li { margin-bottom: 10px; }
+        .location-image { max-width: 100px; max-height: 100px; margin-right: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
+
+    <p style="margin-bottom: 20px;">Are you looking for a local installer? Have no fears as Miles Works builds are happening all over by the top trained and experienced body shops in North America. By using the interactive map, these body shops are easily searchable to find one nearest you.</p>
+
 
     <div id="mapid"></div>
 
@@ -22,13 +26,13 @@
         <label for="states">Choose a state or country:</label>
         <select id="states" onchange="filterMarkers()">
             <option value="all">All Locations</option>
-            <option value="Texas">Texas</option>
-            <option value="Georgia">Georgia</option>
-            <option value="California">California</option>
             <option value="Canada">Canada</option>
-            <!-- Add options for other states/countries as needed -->
+            <option value="Florida">Florida</option>
+            <option value="Texas">Texas</option>
+            <option value="Washington">Washington</option>
         </select>
     </div>
+
 
     <div id="locations">
         <h2>Authorized Garages</h2>
@@ -36,8 +40,6 @@
             <!-- List items will be dynamically added based on the selected state -->
         </ul>
     </div>
-
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae felis sed turpis vulputate dictum vel non ante. Phasellus maximus massa vel nisi scelerisque, eget malesuada eros fermentum. Sed vel efficitur dui, et ultrices ipsum. Suspendisse potenti. Nunc nec condimentum mauris, ac sagittis risus. Duis rutrum velit in ligula bibendum, eu posuere libero sollicitudin. Sed at nisi ac tortor lacinia ultricies ut et ligula. Vestibulum malesuada felis ut turpis pellentesque, at faucibus nulla mattis. Sed mattis, magna id euismod convallis, urna nisl ullamcorper mi, a pulvinar leo elit nec ex. Nam interdum enim auctor odio tempor, sit amet gravida leo varius. Nulla ultrices vel justo vel blandit. Curabitur accumsan tincidunt est, non suscipit libero tincidunt in. Vivamus dictum aliquet nunc a luctus. Nullam at leo eget turpis vestibulum auctor vel vel dui. Aliquam erat volutpat. </p>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <!-- <script src="leaflet/leaflet.js"></script> local file -->
@@ -49,25 +51,12 @@
         }).addTo(map);
 
         var markers = [
-            {name: "Miles Works USA", address: "6115 Milwee St Ste D, Houston, TX 77092", state: "Texas", latlng: [29.8351, -95.4332], phone: "(123) 456-7890", website: "https://www.milesworksusa.com"},
-            {name: "Porsche Experience Center", address: "One Porsche Dr, Atlanta, GA 30354", state: "Georgia", latlng: [33.6563, -84.4177], phone: "(234) 567-8901", website: "https://www.porschedriving.com/atlanta"},
-            {name: "Crpto Arena", address: "Crypto.com Arena, Los Angeles, CA", state: "California", latlng: [34.043, -118.267], phone: "(345) 678-9012", website: "https://www.cryptoarena.com/"},
-            // South part of Texas
-            {name: "South Texas", address: "South Texas Address", state: "Texas", latlng: [27.000, -99.000], phone: "(456) 789-0123", website: "https://www.example.com"},
-            // West part of Texas
-            {name: "West Texas", address: "West Texas Address", state: "Texas", latlng: [31.000, -103.000], phone: "(567) 890-1234", website: "https://www.example.com"},
-            // East part of Texas
-            {name: "East Texas", address: "East Texas Address", state: "Texas", latlng: [31.000, -94.000], phone: "(678) 901-2345", website: "https://www.example.com"},
-            // North part of Texas
-            {name: "North Texas", address: "North Texas Address", state: "Texas", latlng: [33.000, -97.000], phone: "(789) 012-3456", website: "https://www.example.com"},
-            // North part of Canada
-            {name: "North Canada", address: "North Canada Address", state: "Canada", latlng: [70.000, -95.000], phone: "(890) 123-4567", website: "https://www.example.com"},
-            // South part of Canada
-            {name: "South Canada", address: "South Canada Address", state: "Canada", latlng: [45.000, -95.000], phone: "(901) 234-5678", website: "https://www.example.com"},
-            // West part of Canada
-            {name: "West Canada", address: "West Canada Address", state: "Canada", latlng: [55.000, -120.000], phone: "(012) 345-6789", website: "https://www.example.com"},
-            // East part of Canada
-            {name: "East Canada", address: "East Canada Address", state: "Canada", latlng: [55.000, -70.000], phone: "(123) 456-7890", website: "https://www.example.com"}
+            {name: "Gizmos PowerFactory", address: "1035 SW 1st Way, Deerfield Beach, FL 33441", state: "Florida", latlng: [26.3073, -80.1098], phone: "(456) 789-0123", website: "https://www.gizmospowerfactory.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/gizmospowerfactory/", email: "info@gizmospowerfactory.com", images: ["https://cdna.artstation.com/p/assets/images/images/041/110/792/large/mag-works-rod1.jpg?1630785917","https://images5.alphacoders.com/106/1068620.jpg"]},
+            {name: "Epitome Auto Design", address: "5219 84th St E Suite B, Tacoma, WA 98446", state: "Washington", latlng: [47.1710, -122.3826], phone: "(567) 890-1234", website: "https://www.epitomeautodesign.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/epitomeautodesign/", email: "contact@epitomeautodesign.com", images: ["https://example.com/image3.jpg"]},
+            {name: "QTX AUTO", address: "2121 Brittmoore Rd Suite 100, Houston, TX 77043", state: "Texas", latlng: [29.8052, -95.5747], phone: "(678) 901-2345", website: "https://www.qtxauto.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/qtxauto/", email: "info@qtxauto.com", images: ["https://example.com/image4.jpg", "https://example.com/image5.jpg"]},
+            {name: "Lee's Autoworks", address: "1295 Thornton Rd S, Oshawa, ON L1J 0E6, Canada", state: "Canada", latlng: [43.8829, -78.8286], phone: "(789) 012-3456", website: "https://www.leesautoworks.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/leesautoworks/", email: "contact@leesautoworks.com", images: ["https://example.com/image6.jpg", "https://example.com/image7.jpg"]},
+            { name: "AutoTech Solutions", address: "123 Main Street, Miami, FL 33101", state: "Florida", latlng: [25.7617, -80.1918], phone: "(987) 654-3210", website: "https://www.autotechsolutions.com/", tier: "Recommended Installer", instagram: "https://www.instagram.com/autotechsolutions/", email: "info@autotechsolutions.com", images: ["https://example.com/image8.jpg", "https://example.com/image9.jpg"] }
+
             // Add more locations as needed
         ];
 
@@ -75,13 +64,21 @@
 
         markers.forEach(function(markerInfo) {
             var marker = L.marker(markerInfo.latlng).bindPopup
-            ("<b>" + markerInfo.name + "</b>");
+            ("<b>" + markerInfo.address + "</b>");
             marker.name = markerInfo.name; // Add info attribute to marker
             marker.state = markerInfo.state; // Add state attribute to marker
             marker.phone = markerInfo.phone; // Add phone attribute to marker
             marker.website = markerInfo.website; // Add website attribute to marker
+            marker.tier = markerInfo.tier; // Add tier attribute to marker
+            marker.instagram = markerInfo.instagram; // Add instagram attribute to marker
+            marker.email = markerInfo.email; // Add email attribute to marker
+            marker.images = markerInfo.images; // Add images attribute to marker
             allMarkers.push(marker);
         });
+
+        function openImageInNewTab(imageUrl) {
+            window.open(imageUrl, '_blank');
+        }
 
         function filterMarkers() {
             var selectedState = document.getElementById("states").value;
@@ -113,11 +110,17 @@
                 stateMarkers.forEach(function(marker) {
                     map.addLayer(marker);
                     var li = document.createElement("li");
+                    var imagesHTML = marker.images.map(function(image) {
+                        return "<img src='" + image + "' class='location-image' onclick='openImageInNewTab(\"" + image + "\")' />";
+                    }).join("");
                     li.innerHTML =
                         "<strong>" + marker.name + "</strong><br>" +
                         "" + marker.getPopup().getContent().replace(/<\/?b>/g, '') + "<br>" +
                         "" + marker.phone + "<br>" +
-                        "</strong> <a href='" + marker.website + "'>" + marker.website + "</a>";
+                        "<em>" + marker.tier + "</em><br>" +
+                        "<a href='" + marker.instagram + "'>Instagram</a><br>" +
+                        "<a href='mailto:" + marker.email + "'>Email</a><br>" +
+                        imagesHTML;
                     locationList.appendChild(li);
                 });
             }
