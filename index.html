@@ -19,7 +19,6 @@
 
     <p style="margin-bottom: 20px;">Are you looking for a local installer? Have no fears as Miles Works builds are happening all over by the top trained and experienced body shops in North America. By using the interactive map, these body shops are easily searchable to find one nearest you.</p>
 
-
     <div id="mapid"></div>
 
     <div>
@@ -32,7 +31,6 @@
             <option value="Washington">Washington</option>
         </select>
     </div>
-
 
     <div id="locations">
         <h2>Authorized Garages</h2>
@@ -50,21 +48,44 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+        // Define custom icons
+        var tier1Icon = L.icon({
+            iconUrl: 'leaflet/images/marker-icon-2x.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            tooltipAnchor: [16, -28],
+            shadowUrl: 'leaflet/images/marker-shadow.png',
+            shadowSize: [41, 41],
+            shadowAnchor: [12, 41]
+        });
+
+        var tier2Icon = L.icon({
+            iconUrl: 'leaflet/images/marker-icon-purp-2x.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            tooltipAnchor: [16, -28],
+            shadowUrl: 'leaflet/images/marker-shadow.png',
+            shadowSize: [41, 41],
+            shadowAnchor: [12, 41]
+        });
+
         var markers = [
             {name: "Gizmos PowerFactory", address: "1035 SW 1st Way, Deerfield Beach, FL 33441", state: "Florida", latlng: [26.3073, -80.1098], phone: "(456) 789-0123", website: "https://www.gizmospowerfactory.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/gizmospowerfactory/", email: "info@gizmospowerfactory.com", images: ["https://cdna.artstation.com/p/assets/images/images/041/110/792/large/mag-works-rod1.jpg?1630785917","https://images5.alphacoders.com/106/1068620.jpg"]},
-            {name: "Epitome Auto Design", address: "5219 84th St E Suite B, Tacoma, WA 98446", state: "Washington", latlng: [47.1710, -122.3826], phone: "(567) 890-1234", website: "https://www.epitomeautodesign.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/epitomeautodesign/", email: "contact@epitomeautodesign.com", images: ["https://example.com/image3.jpg"]},
-            {name: "QTX AUTO", address: "2121 Brittmoore Rd Suite 100, Houston, TX 77043", state: "Texas", latlng: [29.8052, -95.5747], phone: "(678) 901-2345", website: "https://www.qtxauto.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/qtxauto/", email: "info@qtxauto.com", images: ["https://example.com/image4.jpg", "https://example.com/image5.jpg"]},
-            {name: "Lee's Autoworks", address: "1295 Thornton Rd S, Oshawa, ON L1J 0E6, Canada", state: "Canada", latlng: [43.8829, -78.8286], phone: "(789) 012-3456", website: "https://www.leesautoworks.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/leesautoworks/", email: "contact@leesautoworks.com", images: ["https://example.com/image6.jpg", "https://example.com/image7.jpg"]},
-            { name: "AutoTech Solutions", address: "123 Main Street, Miami, FL 33101", state: "Florida", latlng: [25.7617, -80.1918], phone: "(987) 654-3210", website: "https://www.autotechsolutions.com/", tier: "Recommended Installer", instagram: "https://www.instagram.com/autotechsolutions/", email: "info@autotechsolutions.com", images: ["https://example.com/image8.jpg", "https://example.com/image9.jpg"] }
-
+            {name: "Epitome Auto Design", address: "5219 84th St E Suite B, Tacoma, WA 98446", state: "Washington", latlng: [47.1710, -122.3826], phone: "(567) 890-1234", website: "https://www.epitomeautodesign.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/epitomeautodesign/", email: "contact@epitomeautodesign.com", images: [""]},
+            {name: "QTX AUTO", address: "2121 Brittmoore Rd Suite 100, Houston, TX 77043", state: "Texas", latlng: [29.8052, -95.5747], phone: "(678) 901-2345", website: "https://www.qtxauto.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/qtxauto/", email: "info@qtxauto.com", images: [""]},
+            {name: "Lee's Autoworks", address: "1295 Thornton Rd S, Oshawa, ON L1J 0E6, Canada", state: "Canada", latlng: [43.8829, -78.8286], phone: "(789) 012-3456", website: "https://www.leesautoworks.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/leesautoworks/", email: "contact@leesautoworks.com", images: [""]},
+            { name: "AutoTech Solutions tier 1 example", address: "123 Main Street, Miami, FL 33101", state: "Florida", latlng: [25.7617, -80.1918], phone: "(987) 654-3210", website: "https://www.autotechsolutions.com/", tier: "Recommended Installer", instagram: "https://www.instagram.com/autotechsolutions/", email: "info@autotechsolutions.com", images: [""] }
             // Add more locations as needed
         ];
 
         var allMarkers = [];
 
         markers.forEach(function(markerInfo) {
-            var marker = L.marker(markerInfo.latlng).bindPopup
-            ("<b>" + markerInfo.address + "</b>");
+            var markerIcon = markerInfo.tier === "Recommended Installer" ? tier1Icon : tier2Icon;
+            var marker = L.marker(markerInfo.latlng, { icon: markerIcon }).bindPopup
+            ("<b>" + markerInfo.name + "</b>");
             marker.name = markerInfo.name; // Add info attribute to marker
             marker.state = markerInfo.state; // Add state attribute to marker
             marker.phone = markerInfo.phone; // Add phone attribute to marker
