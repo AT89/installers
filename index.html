@@ -76,7 +76,7 @@
             {name: "Epitome Auto Design", address: "5219 84th St E Suite B, Tacoma, WA 98446", state: "Washington", latlng: [47.1710, -122.3826], phone: "(567) 890-1234", website: "https://www.epitomeautodesign.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/epitomeautodesign/", email: "contact@epitomeautodesign.com", images: [""]},
             {name: "QTX AUTO", address: "2121 Brittmoore Rd Suite 100, Houston, TX 77043", state: "Texas", latlng: [29.8052, -95.5747], phone: "(678) 901-2345", website: "https://www.qtxauto.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/qtxauto/", email: "info@qtxauto.com", images: [""]},
             {name: "Lee's Autoworks", address: "1295 Thornton Rd S, Oshawa, ON L1J 0E6, Canada", state: "Canada", latlng: [43.8829, -78.8286], phone: "(789) 012-3456", website: "https://www.leesautoworks.com/", tier: "Certified and Proven Installer", instagram: "https://www.instagram.com/leesautoworks/", email: "contact@leesautoworks.com", images: [""]},
-            { name: "AutoTech Solutions tier 1 example", address: "123 Main Street, Miami, FL 33101", state: "Florida", latlng: [25.7617, -80.1918], phone: "(987) 654-3210", website: "https://www.autotechsolutions.com/", tier: "Recommended Installer", instagram: "https://www.instagram.com/autotechsolutions/", email: "info@autotechsolutions.com", images: [""] }
+            // { name: "A tier 1 example", address: "123 Main Street, Miami, FL 33101", state: "Florida", latlng: [25.7617, -80.1918], phone: "(987) 654-3210", website: "https://www.autotechsolutions.com/", tier: "Recommended Installer", instagram: "https://www.instagram.com/autotechsolutions/", email: "info@autotechsolutions.com", images: [""] }
             // Add more locations as needed
         ];
 
@@ -107,19 +107,6 @@
             var locationList = document.getElementById("locationList");
             locationList.innerHTML = ""; // Clear previous list items
 
-            if (selectedState === "all") {
-                map.setView([50.0000, -95.0000], 3); // Zoom out to view entire North America
-                var allLocationsHeader = document.createElement("li");
-                allLocationsHeader.textContent = "All Locations";
-                allLocationsHeader.classList.add("state-header");
-                locationList.appendChild(allLocationsHeader);
-            } else {
-                var stateHeader = document.createElement("li");
-                stateHeader.textContent = selectedState;
-                stateHeader.classList.add("state-header");
-                locationList.appendChild(stateHeader);
-            }
-
             var stateMarkers = allMarkers.filter(function(marker) {
                 return marker.state === selectedState || selectedState === "all";
             });
@@ -144,6 +131,19 @@
                         "<a href='mailto:" + marker.email + "'>Email</a><br>" +
                         imagesHTML;
                     locationList.appendChild(li);
+                    marker.on('click', function(e) {
+                        locationList.innerHTML = "";
+                        var singleMarkerLi = document.createElement("li");
+                        singleMarkerLi.innerHTML =
+                            "<strong>" + e.target.name + "</strong>" +
+                            "<br>" + e.target.address + "<br>" +
+                            "" + e.target.phone + "<br>" +
+                            "<em>" + e.target.tier + "</em><br>" +
+                            "<a href='" + e.target.instagram + "'>Instagram</a><br>" +
+                            "<a href='mailto:" + e.target.email + "'>Email</a><br>" +
+                            imagesHTML;
+                        locationList.appendChild(singleMarkerLi);
+                    });
                 });
             }
 
